@@ -17,7 +17,7 @@ public class JDBCDaoFactory implements DaoFactory {
     private Connection getConnection(){
         try {
             return DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/mycardb",
+                    "jdbc:mysql://localhost:3306/noteBooks",
                     "root" ,
                     "123123aa" );
         } catch (SQLException e) {
