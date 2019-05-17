@@ -1,10 +1,14 @@
 package com.company.controller;
 
 import com.company.model.Model;
+import com.company.model.dao.DaoFactory;
+import com.company.model.dao.NoteBookDao;
+import com.company.model.dao.impl.JDBCDaoFactory;
 import com.company.model.entity.NotUniqueLoginException;
 import com.company.model.entity.NoteBook;
 import com.company.view.View;
 
+import java.sql.DriverManager;
 import java.util.Scanner;
 
 /**
@@ -25,7 +29,12 @@ public class Controller {
         inputNoteNoteBook.inputNote();
 
         NoteBook noteBook = getNoteBook(inputNoteNoteBook);
+        try(NoteBookDao dao =  DaoFactory.getInstance().createNoteBookDao()) {
+            dao.create(noteBook);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         System.out.println(noteBook);
     }
 
