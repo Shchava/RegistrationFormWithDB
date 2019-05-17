@@ -26,7 +26,7 @@ public class JDBCNoteBookFactory implements NoteBookDao {
     }
 
     @Override
-    public NoteBook findById(int id) {
+    public NoteBook findByKey(String s) {
         return null;
     }
 
