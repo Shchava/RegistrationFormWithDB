@@ -3,6 +3,8 @@ package com.company.model.dao.impl;
 import com.company.model.dao.NoteBookDao;
 import com.company.model.entity.NoteBook;
 
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.sql.Connection;
 
@@ -16,7 +18,11 @@ public class JDBCNoteBookFactory implements NoteBookDao {
 
     @Override
     public void create(NoteBook entity) {
-
+        try (Statement ps = connection.createStatement()){
+            ps.execute("insert into nooteBooks values('"+ entity.getLoginData() + "','" + entity.getFirstName() + "');");
+        }catch(SQLException ex){
+            System.err.print(ex);
+        }
     }
 
     @Override
@@ -41,6 +47,6 @@ public class JDBCNoteBookFactory implements NoteBookDao {
 
     @Override
     public void close() throws Exception {
-
+        connection.close();
     }
 }
