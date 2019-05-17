@@ -40,17 +40,24 @@ public class Controller {
 
     private NoteBook getNoteBook(InputNoteNoteBook inputNoteNoteBook) {
         NoteBook noteBook = null;
-        while(true) {
-            try {
-                noteBook = new NoteBook(inputNoteNoteBook.getFirstName(),
-                        inputNoteNoteBook.getLoginData());
-                break;
-            } catch (NotUniqueLoginException e) {
-                e.printStackTrace();
-                System.out.println("Not Unique Login " + e.getLoginData());
+        while(noteBook == null) {
+            noteBook = new NoteBook(inputNoteNoteBook.getFirstName(), inputNoteNoteBook.getLoginData());
+            if (!checkUniqueness(noteBook)){
+                System.out.println("Not Unique Login : " + noteBook.getLoginData());
                 inputNoteNoteBook.inputLogin();
+                noteBook = null;
             }
         }
         return noteBook;
+    }
+    private boolean checkUniqueness(NoteBook noteBook) {
+        try (NoteBookDao dao = DaoFactory.getInstance().createNoteBookDao()) {
+            if (dao.findByKey(noteBook.getLoginData()) == null) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
